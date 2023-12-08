@@ -1,0 +1,107 @@
+version: 2
+
+sources:
+
+  - name: sql_server_dbo # name of the source
+    description: Raw data for events demo from SQL_Server Database.
+    schema: sql_server_dbo # this is the schema our raw data lives in
+    database: ALUMNO6_DEV_BRONZE_DB # this is the name of our database quoting:
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 24, period: hour}
+      error_after: {count: 48, period: hour}
+
+    tables:
+
+      - name: addresses
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: zipcode
+          - name: country
+          - name: address
+          - name: state
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded
+
+      - name: events
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: event_id
+          - name: page_url
+          - name: event_type
+          - name: user_id
+          - name: product_id
+          - name: session_id
+          - name: created_at
+          - name: order_id
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded.
+
+      - name: orders
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: order_id
+          - name: shipping_service
+          - name: shipping_cost
+          - name: address_id
+          - name: created_at
+          - name: promo_id
+          - name: estimated_delivery_at
+          - name: order_cost
+          - name: user_id
+          - name: order_total
+          - name: delivery_at
+          - name: tracking_id
+          - name: status
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded
+
+      - name: order_items
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: order_id
+          - name: product_id
+          - name: quantity
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded
+
+      - name: promos
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: promo_id
+          - name: discount
+          - name: status
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded
+
+      - name: users
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: user_id
+          - name: updated_at
+          - name: address_id
+          - name: last_name
+          - name: created_at
+          - name: phone_number
+          - name: total_orders
+          - name: first_name
+          - name: email
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded
