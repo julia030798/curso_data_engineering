@@ -21,7 +21,26 @@ sources:
         loaded_at_field: _fivetran_synced
         columns:
           - name: _row
+            description: "La clave primaria de la tabla budget"
+            tests:
+              - unique
+              - not_null
           - name: product_id
+            description: ""
+            tests:
+              - unique
+              - relationships:
+                  to: source('sql_server_dbo','products')
+                  field: product_id
           - name: quantity
+            description: ""
+            tests:
+              - positive_values
           - name: month
+            description: ""
+            tests:
+              - not_null
           - name: _fivetran_synced
+            description: ""
+            tests:
+              - not_null

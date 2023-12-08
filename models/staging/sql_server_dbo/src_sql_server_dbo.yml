@@ -105,3 +105,15 @@ sources:
           - name: _fivetran_synced
             description: >
              Date that the data was loaded
+
+      - name: products
+        loaded_at_field: _fivetran_synced
+        columns:
+          - name: product_id
+          - name: price
+          - name: name
+          - name: inventory
+          - name: _fivetran_deleted
+          - name: _fivetran_synced
+            description: >
+             Date that the data was loaded
