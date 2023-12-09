@@ -16,11 +16,12 @@ sources:
       warn_after: {count: 24, period: hour}
       error_after: {count: 48, period: hour}
 
+    loaded_at_field: _fivetran_synced
+
     tables:
 
       - name: budget
         description: "Table containing information about product's budget"
-        loaded_at_field: _fivetran_synced
         columns:
           - name: _row
             description: "Unique identifier for each row in the table"
@@ -44,6 +45,6 @@ sources:
             tests:
               - not_null
           - name: _fivetran_synced
-            description: " Date and time of the last synchronization with Fivetran"
+            description: "Date and time of the last synchronization with Fivetran"
             tests:
               - not_null
