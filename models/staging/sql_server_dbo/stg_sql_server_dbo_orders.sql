@@ -21,7 +21,7 @@ with src_orders as (
           order_id
         , decode (shipping_service, '', 'pending', shipping_service) as shipping_service
         , shipping_cost::float as shipping_cost_usd
-        , user_id,
+        , user_id
         , created_at
         , order_cost::float as order_cost_usd
         , status::varchar(50) as status
@@ -32,8 +32,8 @@ with src_orders as (
         , decode (tracking_id, '', 'pending', tracking_id) as id_tracking
         , decode (promo_id, '', 'No Promo', promo_id) AS id_promo
         , _fivetran_synced
-    FROM {{ source('sql_server_dbo', 'orders') }}
-    )
+    from {{ source('sql_server_dbo', 'orders') }}
+    ),
 
 stg_orders as (
     select
@@ -48,8 +48,8 @@ stg_orders as (
         , {{ dbt_utils.generate_surrogate_key(['address_id']) }} as id_address
         , {{dbt_date.convert_timezone("estimated_delivery_at", "America/Los_Angeles", "UTC") }} as estimated_delivery_at_utc
         , {{dbt_date.convert_timezone("delivered_at", "America/Los_Angeles", "UTC") }} as delivered_at_utc
-        , {{dbt_utils.generate_surrogate_key(['tracking_id']) }} as id_tracking
-        , {{dbt_utils.generate_surrogate_key(['promo_id']) }} as id_promo
+        , {{dbt_utils.generate_surrogate_key(['id_tracking']) }} as id_tracking
+        , {{dbt_utils.generate_surrogate_key(['id_promo']) }} as id_promo
         , {{dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from src_orders
     )

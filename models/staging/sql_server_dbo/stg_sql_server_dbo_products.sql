@@ -17,7 +17,7 @@
 
 with src_products as (
     select 
-        product_id
+          product_id
         , name::varchar(50) as product_desc
         , price::float as price_usd
         , inventory::integer as inventory
@@ -28,7 +28,7 @@ with src_products as (
 stg_products as (
     select
           {{ dbt_utils.generate_surrogate_key(['product_id']) }} AS id_product
-        , name
+        , product_desc
         , price_usd
         , inventory
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} AS date_load_utc

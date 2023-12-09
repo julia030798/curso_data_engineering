@@ -18,7 +18,7 @@
 
 with src_order_items as (
     select
-        order_id
+          order_id
         , product_id
         , quantity::int as quantity
         , _fivetran_synced

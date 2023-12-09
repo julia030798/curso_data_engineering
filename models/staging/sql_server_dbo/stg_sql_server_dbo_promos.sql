@@ -32,7 +32,7 @@ stg_promos as (
         , discount_usd
         , status
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} AS date_load_utc
-    from src_promos_orders
+    from src_promos
     )
 
 select * from stg_promos

@@ -18,7 +18,7 @@
 
 with src_events as (
     select 
-        event_id
+          event_id
         , page_url::varchar(500) as page_url
         , event_type::varchar(50) as event_type
         , user_id
@@ -32,14 +32,14 @@ with src_events as (
 
 stg_events as (
     select
-          {{ dbt_utils.generate_surrogate_key(['event_id']) }} as id_event,
+          {{ dbt_utils.generate_surrogate_key(['event_id']) }} as id_event
         , page_url
         , event_type
         , {{ dbt_utils.generate_surrogate_key(['user_id']) }} as id_user
-        , {{ dbt_utils.generate_surrogate_key(['id_product']) }} as id_product,
+        , {{ dbt_utils.generate_surrogate_key(['id_product']) }} as id_product
         , session_id
         , {{ dbt_date.convert_timezone("created_at", "America/Los_Angeles", "UTC") }} as created_at_utc
-        , {{ dbt_utils.generate_surrogate_key(['id_order']) }} as id_order,
+        , {{ dbt_utils.generate_surrogate_key(['id_order']) }} as id_order
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from src_events
     )
