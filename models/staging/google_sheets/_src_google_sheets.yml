@@ -24,11 +24,13 @@ sources:
         description: "Table containing information about product's budget"
         columns:
           - name: _row
+            data_type: number
             description: "Unique identifier for each row in the table"
             tests:
               - unique
               - not_null
           - name: product_id
+            data_type: varchar
             description: "Identifier of the product associated with the budget"
             tests:
               - not_null
@@ -36,15 +38,18 @@ sources:
                   to: source('sql_server_dbo','products')
                   field: product_id
           - name: quantity
+            data_type: number
             description: "Assigned quantity of the product for a budget"
             tests:
               - not_null
               - positive_values
           - name: month
+            data_type: date
             description: "Month of the budget's allocation"
             tests:
               - not_null
           - name: _fivetran_synced
+            data_type: timestamp
             description: "Date and time of the last synchronization with Fivetran"
             tests:
               - not_null

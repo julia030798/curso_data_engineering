@@ -24,30 +24,37 @@ sources:
         description: "Table containing address information"
         columns:
           - name: address_id
+            data_type: varchar
             description: "Unique identifier for the address"
             tests:
               - unique
               - not_null
           - name: zipcode
+            data_type: number
             description: "Postal code of the address"
             tests:
               - positive_values
               - not_null
           - name: country
+            data_type: varchar
             description: "Country of the address"
             tests:
               - not_null
           - name: address
+            data_type: varchar
             description: "Description of the address"
             tests:
               - not_null
           - name: state
+            data_type: varchar
             description: "State of the adress"
             tests:
               - not_null
           - name: _fivetran_deleted
+            data_type: boolean
             description: "Fivetran deletion marker"
           - name: _fivetran_synced
+            data_type: timestamp
             description: " Date and time of the last synchronization with Fivetran"
             tests:
               - not_null
@@ -56,19 +63,23 @@ sources:
         description: "Table containing information about events related to eCommerce"
         columns:
           - name: event_id
+            data_type: varchar
             description: "Unique identifier for the event"
             tests:
               - unique 
               - not_null
           - name: page_url
+            data_type: varchar
             description: "URL of the page associated with the event"
             tests:
               - not_null
           - name: event_type
+            data_type: varchar
             description: "Type of event"
             tests:
               - not_null
           - name: user_id
+            data_type: varchar
             description: "Identifier of the user associated with the event"
             tests:
               - not_null
@@ -76,23 +87,29 @@ sources:
                   to: source('sql_server_dbo','users')
                   field: user_id
           - name: product_id
+            data_type: varchar
             description: "Identifier of the product associated with the event"
             tests:
               - not_null
           - name: session_id
+            data_type: varchar
             description: "Identifier for the session of the event"
             tests:
               - not_null
           - name: created_at
+            data_type: timestamp
             description: "Date and time when the event was created"
             tests:
               - not_null
           - name: order_id
+            data_type: varchar
             description: "Identifier of the order associated with the event"
             tests:
               - not_null
           - name: _fivetran_deleted
+            data_type: boolean
           - name: _fivetran_synced
+            data_type: timestamp
             tests:
               - not_null
 
@@ -100,20 +117,24 @@ sources:
         description: "Table containing information about retail orders"
         columns:
           - name: order_id
+            data_type: varchar
             description: "Unique identifier for the order"
             tests:
               - unique 
               - not_null
           - name: shipping_service
+            data_type: varchar
             description: "Shipping service used for the order"
             tests:
               - not_null
           - name: shipping_cost
+            data_type: float
             description: "Shipping cost of the order"
             tests:
               - not_null
               - positive_values
           - name: address_id
+            data_type: varchar
             description: "Identifier of the address associated with the order"
             tests:
               - not_null
@@ -121,21 +142,26 @@ sources:
                   to: source('sql_server_dbo','addresses')
                   field: address_id
           - name: created_at
+            data_type: timestamp
             description: "Date and time when the order was created"
             tests:
               - not_null
           - name: promo_id
+            data_type: varchar
             description: "Identifier of the promotion associated with the order"
             tests:
               - not_null
           - name: estimated_delivery_at
+            data_type: timestamp
             description: "Date and time when the order is estimated to be delivered"
           - name: order_cost
+            data_type: float
             description: "Cost of the order"
             tests:
               - not_null
               - positive_values
           - name: user_id
+            data_type: varchar
             description: "Identifier of the user who placed the order"
             tests:
               - not_null
@@ -143,20 +169,26 @@ sources:
                   to: source('sql_server_dbo','users')
                   field: user_id
           - name: order_total
+            data_type: float
             description: "Total cost of the order (including promotions and shipping cost)"
             tests:
               - not_null
               - positive_values
           - name: delivery_at
+            data_type: timestamp
             description: "Date and time of the order delivery"
           - name: tracking_id
+            data_type: varchar
             description: "Unique identifier of the order tracking"
           - name: status
+            data_type: varchar
             description: "Current status of the order"
             tests:
               - not_null
           - name: _fivetran_deleted
+            data_type: boolean
           - name: _fivetran_synced
+            data_type: timestamp
             tests:
               - not_null
 
@@ -164,6 +196,7 @@ sources:
         description: "Table containing details of the order's items"
         columns:
           - name: order_id
+            data_type: varchar
             description: "Identifier of the order associated with the item"
             tests: 
               - not_null
@@ -171,6 +204,7 @@ sources:
                   to: source('sql_server_dbo','orders')
                   field: order_id
           - name: product_id
+            data_type: varchar
             description: "Identifier of the product associated with the item"
             tests:
               - not_null
@@ -178,12 +212,15 @@ sources:
                   to: source('sql_server_dbo','products')
                   field: product_id
           - name: quantity
+            data_type: number
             description: "Quantity of product units in the order"
             tests:
               - not_null
               - positive_values
           - name: _fivetran_deleted
+            data_type: boolean
           - name: _fivetran_synced
+            data_type: timestamp
             tests:
               - not_null
 
@@ -191,21 +228,26 @@ sources:
         description: "Table containing information about promotions"
         columns:
           - name: promo_id
+            data_type: varchar
             description: " Unique identifier of the promotion"
             tests:
               - unique 
               - not_null
           - name: discount
+            data_type: number
             description: "Discount included in the promotion"
             tests:
               - not_null
               - positive_values
           - name: status
+            data_type: varchar
             description: "Current status of the promotion"
             tests:
               - not_null
           - name: _fivetran_deleted
+            data_type: boolean
           - name: _fivetran_synced
+            data_type: timestamp
             tests:
               - not_null
 
@@ -213,42 +255,53 @@ sources:
         description: "Table containing information about users"
         columns:
           - name: user_id
+            data_type: varchar
             description: "Unique identifier of the user"
             tests:
               - unique 
               - not_null
           - name: updated_at
+            data_type: timestamp
             description: "Date and time when the user was last updated"
             tests:
               - not_null
           - name: address_id
+            data_type: varchar
             description: "Identifier of the address associated with the user"
             tests:
               - not_null
           - name: last_name
+            data_type: varchar
             description: "Last name of the user"
             tests:
               - not_null
           - name: created_at
+            data_type: timestamp
             description: " Date and time when the user was created"
             tests:
               - not_null
           - name: phone_number
+            data_type: varchar
             description: "Phone number of the user"
             tests:
               - not_null
           - name: total_orders
+            data_type: number
             description: "Total number of orders placed by the user"
           - name: first_name
+            data_type: varchar
             description: "First name of the user"
             tests:
               - not_null
           - name: email
+            data_type: varchar
             description: "Email address of the user"
             tests:
               - not_null
           - name: _fivetran_deleted
+            data_type: boolean
           - name: _fivetran_synced
+            data_type: timestamp
             tests:
               - not_null
 
@@ -256,25 +309,31 @@ sources:
         description: "Table containing information about products"
         columns:
           - name: product_id
+            data_type: varchar
             description: "Unique identifier of the product"
             tests:
               - unique
               - not_null
           - name: price
+            data_type: float
             description: "Price of the product"
             tests:
               - not_null
               - positive_values
           - name: name
+            data_type: varchar
             description: "Name of the product"
             tests:
               - not_null
           - name: inventory
+            data_type: number
             description: "Quantity of the product available in stock"
             tests:
               - not_null
               - positive_values
           - name: _fivetran_deleted
+            data_type: boolean
           - name: _fivetran_synced
+            data_type: timestamp
             tests:
               - not_null
