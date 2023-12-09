@@ -27,7 +27,7 @@ stg_budget as (
         {{ dbt_utils.generate_surrogate_key(['product_id']) }} as id_product,
         quantity::int as quantity,
         {{ dbt_utils.generate_surrogate_key(['month']) }} as id_date,
-        _fivetran_synced as date_load,
+        _fivetran_synced as date_load_utc,
     from src_budget
     )
 

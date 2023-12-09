@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_google_sheets_budget
+    description: "Staging model for budget data from Google Sheets."
+    columns:
+      - name: id_budget
+        description: "Primary key for the budget"
+        tests:
+          - unique
+          - not_null
+      - name: id_product
+        description: "Foreign key referencing the product associated with the budget"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: id_product
+      - name: quantity
+        description: "Quantity of a specific product in the budget"
+        tests:
+          - not_null
+          - positive_values
+      - name: id_date
+        description: "Foreign key representing the date of the budget"
+        tests:
+          - not_null
+      - name: date_load_utc
+        description: "Date and time when the budget data was loaded"
+        tests:
+          - not_null
