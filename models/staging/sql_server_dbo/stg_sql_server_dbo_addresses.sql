@@ -10,9 +10,9 @@
 
 {{
   config(
-    materialized='view',
-    unique_key='id_address',
-    on_schema_change='fail'
+      materialized='view'
+    , unique_key='id_address'
+    , on_schema_change='fail'
   )
 }}
 
@@ -23,13 +23,13 @@ with src_addresses as (
 
 stg_addresses as (
     select 
-        {{ dbt_utils.generate_surrogate_key(['address_id']) }} as id_address,
-        address,
-        zipcode::int as zipcode,
-        state,
-        country,
-        {{ dbt_date.convert_timezone("_fivetran_synced", source_tz="UTC") }} as date_load_utc
-    from srg_addresses
+          {{ dbt_utils.generate_surrogate_key(['address_id']) }} as id_address
+        , address::varchar(50) as address
+        , zipcode::int as zipcode
+        , state::varchar(50) as state
+        , country::varchar(50) as country
+        , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
+    from src_addresses
     )
 
 select * from stg_addresses

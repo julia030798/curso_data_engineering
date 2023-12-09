@@ -10,9 +10,9 @@
 
 {{
   config(
-    materialized='view',
-    unique_key='id_budget',
-    on_schema_change='fail'
+      materialized='view'
+    , unique_key='id_budget'
+    , on_schema_change='fail'
   )
 }}
 
@@ -23,11 +23,11 @@ with src_budget as (
 
 stg_budget as (
     select
-        {{ dbt_utils.generate_surrogate_key(['product_id', 'month']) }} as id_budget,
-        {{ dbt_utils.generate_surrogate_key(['product_id']) }} as id_product,
-        quantity::int as quantity,
-        {{ dbt_utils.generate_surrogate_key(['month']) }} as id_date,
-        _fivetran_synced as date_load_utc,
+          {{ dbt_utils.generate_surrogate_key(['product_id', 'month']) }} as id_budget
+        , {{ dbt_utils.generate_surrogate_key(['product_id']) }} as id_product
+        , quantity::int as quantity
+        , {{ dbt_utils.generate_surrogate_key(['month']) }} as id_date
+        , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from src_budget
     )
 
