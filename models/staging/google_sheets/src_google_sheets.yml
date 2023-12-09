@@ -2,9 +2,10 @@ version: 2
 
 sources:
 
-  - name: google_sheets # name of the source 
-    schema: google_sheets # this is the schema our raw data lives in
-    database: ALUMNO6_DEV_BRONZE_DB # this is the name of our database
+  - name: google_sheets # name of the source
+    description: "Raw data coming from a specific table in Google Sheets"
+    schema: google_sheets # schema where the raw data are
+    database: ALUMNO6_DEV_BRONZE_DB # name of the database
 
     quoting:
       database: false
@@ -18,29 +19,31 @@ sources:
     tables:
 
       - name: budget
+        description: "Table containing information about product's budget"
         loaded_at_field: _fivetran_synced
         columns:
           - name: _row
-            description: "La clave primaria de la tabla budget"
+            description: "Unique identifier for each row in the table"
             tests:
               - unique
               - not_null
           - name: product_id
-            description: ""
+            description: "Identifier of the product associated with the budget"
             tests:
-              - unique
+              - not_null
               - relationships:
                   to: source('sql_server_dbo','products')
                   field: product_id
           - name: quantity
-            description: ""
+            description: "Assigned quantity of the product for a budget"
             tests:
+              - not_null
               - positive_values
           - name: month
-            description: ""
+            description: "Month of the budget's allocation"
             tests:
               - not_null
           - name: _fivetran_synced
-            description: ""
+            description: " Date and time of the last synchronization with Fivetran"
             tests:
               - not_null
