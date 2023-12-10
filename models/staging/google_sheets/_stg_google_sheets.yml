@@ -5,12 +5,12 @@ models:
     description: "Staging model for budget data from Google Sheets."
     columns:
       - name: id_budget
-        description: "Primary key for the budget"
+        description: "Unique identifier for the budget"
         tests:
           - unique
           - not_null
       - name: id_product
-        description: "Foreign key referencing the product associated with the budget"
+        description: "Identifier referencing the product associated with the budget"
         tests:
           - not_null
           - relationships:
@@ -22,7 +22,7 @@ models:
           - not_null
           - positive_values
       - name: id_date
-        description: "Foreign key representing the date of the budget"
+        description: "Identifier representing the date of the budget"
         tests:
           - not_null
       - name: date_load_utc

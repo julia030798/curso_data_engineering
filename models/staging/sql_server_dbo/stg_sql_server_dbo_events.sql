@@ -36,10 +36,16 @@ stg_events as (
         , page_url
         , event_type
         , {{ dbt_utils.generate_surrogate_key(['user_id']) }} as id_user
-        , {{ dbt_utils.generate_surrogate_key(['id_product']) }} as id_product
+        , case
+            when id_product = '' then {{ dbt_utils.generate_surrogate_key(['id_product']) }} 
+            else null
+        end as id_product
         , session_id
         , {{ dbt_date.convert_timezone("created_at", "America/Los_Angeles", "UTC") }} as created_at_utc
-        , {{ dbt_utils.generate_surrogate_key(['id_order']) }} as id_order
+        , case
+            when id_order = '' then {{ dbt_utils.generate_surrogate_key(['id_order']) }} 
+            else null
+        end as id_order
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from src_events
     )
