@@ -99,12 +99,6 @@ models:
   - name: stg_sql_server_dbo_order_items
     description: "Staging model for order items data"
     columns:
-      - name: id_order_item
-        data_type: varchar
-        description: "Unique identifier for the order item"
-        tests:
-          - unique
-          - not_null
       - name: id_order
         data_type: varchar
         description: "Identifier referencing the order associated with the item"
