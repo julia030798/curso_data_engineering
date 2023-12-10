@@ -5,7 +5,7 @@ sources:
   - name: sql_server_dbo # name of the source
     description: "Raw data from SQL_Server database"
     schema: sql_server_dbo # schema where the raw data are
-    database: ALUMNO6_DEV_BRONZE_DB # name of the database
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # name of the database
 
     quoting:
       database: false

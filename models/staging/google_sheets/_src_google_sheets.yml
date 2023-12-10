@@ -5,7 +5,7 @@ sources:
   - name: google_sheets # name of the source
     description: "Raw data coming from a specific table in Google Sheets"
     schema: google_sheets # schema where the raw data are
-    database: ALUMNO6_DEV_BRONZE_DB # name of the database
+    database: "{{ env_var('DBT_ENVIRONMENTS') }}_BRONZE_DB" # name of the database
 
     quoting:
       database: false
