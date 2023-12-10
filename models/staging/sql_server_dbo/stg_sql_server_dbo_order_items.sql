@@ -27,7 +27,7 @@ with src_order_items as (
 
 stg_order_items as (
     select
-        , {{ dbt_utils.generate_surrogate_key(['order_id']) }} AS id_order
+          {{ dbt_utils.generate_surrogate_key(['order_id']) }} AS id_order
         , {{ dbt_utils.generate_surrogate_key(['product_id']) }} AS id_product
         , quantity
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} AS date_load_utc
