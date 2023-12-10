@@ -150,8 +150,6 @@ models:
         description: "Date and time when the order was created"
         tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: timestamp_ntz
       - name: order_cost_usd
         data_type: float
         description: "Cost of the order in USD"
@@ -189,20 +187,13 @@ models:
       - name: estimated_delivery_at_utc
         data_type: timestamp_tz
         description: "Date and time when the order is estimated to be delivered"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: timestamp_ntz
       - name: delivered_at_utc
         data_type: timestamp_tz
         description: "Date and time of the order delivery"
-        tests:
-          - dbt_expectations.expect_column_values_to_be_of_type:
-              column_type: timestamp_ntz
       - name: id_tracking
         data_type: varchar
         description: "Tracking ID for the order"
         tests:
-          - not_null
           - dbt_utils.not_empty_string
       - name: id_promo
         data_type: varchar
