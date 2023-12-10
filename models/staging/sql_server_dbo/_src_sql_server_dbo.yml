@@ -54,7 +54,7 @@ sources:
             data_type: boolean
             description: "Fivetran deletion marker"
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             description: "Date and time of the last synchronization with Fivetran"
             tests:
               - not_null
@@ -109,7 +109,7 @@ sources:
           - name: _fivetran_deleted
             data_type: boolean
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             tests:
               - not_null
 
@@ -188,7 +188,7 @@ sources:
           - name: _fivetran_deleted
             data_type: boolean
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             tests:
               - not_null
 
@@ -220,7 +220,7 @@ sources:
           - name: _fivetran_deleted
             data_type: boolean
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             tests:
               - not_null
 
@@ -247,7 +247,7 @@ sources:
           - name: _fivetran_deleted
             data_type: boolean
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             tests:
               - not_null
 
@@ -270,6 +270,9 @@ sources:
             description: "Identifier of the address associated with the user"
             tests:
               - not_null
+              - relationships:
+                  to: source('sql_server_dbo','addresses')
+                  field: address_id
           - name: last_name
             data_type: varchar
             description: "Last name of the user"
@@ -301,7 +304,7 @@ sources:
           - name: _fivetran_deleted
             data_type: boolean
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             tests:
               - not_null
 
@@ -334,6 +337,6 @@ sources:
           - name: _fivetran_deleted
             data_type: boolean
           - name: _fivetran_synced
-            data_type: timestamp
+            data_type: timestamp_ntz
             tests:
               - not_null
