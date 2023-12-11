@@ -14,8 +14,11 @@ with stg_orders_order_items_products as
         , o.id_promo
         , o.id_tracking
         , o.id_date_created
+        , o.id_time_created
         , o.id_date_estimated_delivery
+        , o.id_time_estimated_delivery
         , o.id_date_delivered
+        , o.id_time_delivered
         , o.date_load_utc
         , i.quantity
         , p.id_product

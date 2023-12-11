@@ -17,16 +17,21 @@
 }}
 
 with src_budget as (
-    select * 
+    select 
+          _row
+        , product_id
+        , quantity::int as quantity
+        , month::date as date_month
+        , _fivetran_synced
     from {{ source('google_sheets', 'budget') }}
     ),
 
 stg_budget as (
     select
-          {{ dbt_utils.generate_surrogate_key(['product_id', 'month']) }} as id_budget
+          {{ dbt_utils.generate_surrogate_key(['product_id', 'date_month']) }} as id_budget
         , {{ dbt_utils.generate_surrogate_key(['product_id']) }} as id_product
-        , quantity::int as quantity
-        , month::date as date_month
+        , quantity
+        , {{ dbt_utils.generate_surrogate_key(['date_month']) }} as id_date_month
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from src_budget
     )
@@ -35,6 +40,6 @@ select
       id_budget
     , id_product
     , quantity
-    , date_part('month', date_month) as month_of_budget
+    , id_date_month
     , date_load_utc
 from stg_budget

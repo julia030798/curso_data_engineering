@@ -27,7 +27,6 @@ with stg_events as
     left join
     {{ ref('stg_sql_server_dbo_products') }} p
     on e.id_product=p.id_product
-
 {% if is_incremental() %}
 
 	  where e.date_load_utc > (select max(date_load_utc) from {{ this }} )

@@ -17,6 +17,14 @@ models:
           - relationships:
               to: ref('dim_date')
               field: id_date
+      - name: id_time_created
+        data_type: varchar
+        description: "Foreign key referencing the time of day dimension for the created date"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_time')
+              field: id_time
       - name: id_product
         data_type: varchar
         description: "Foreign key referencing the products dimension"
@@ -73,6 +81,13 @@ models:
           - relationships:
               to: ref('dim_date')
               field: id_date
+      - name: id_time_estimated_delivery
+        data_type: varchar
+        description: "Foreign key referencing the time of day dimension for estimated delivery date"
+        tests:
+          - relationships:
+              to: ref('dim_time')
+              field: id_time
       - name: id_date_delivered
         data_type: varchar
         description: "Foreign key referencing the date dimension for delivered date"
@@ -80,6 +95,13 @@ models:
           - relationships:
               to: ref('dim_time')
               field: id_date
+      - name: id_time_delivered
+        data_type: varchar
+        description: "Foreign key referencing the time of day dimension for delivered date"
+        tests:
+          - relationships:
+              to: ref('dim_time')
+              field: id_time
       - name: id_promo
         data_type: varchar
         description: "Foreign key referencing the promos dimension"
@@ -229,9 +251,47 @@ models:
   - name: dim_events
     description: "Dimension table containing events information"
     columns:
+      - name: id_event
+        data_type: varchar
+        description: "Primary key for events"
+        tests:
+          - not_null
+          - unique
       - name: event_type
         data_type: varchar
         description: "Description of the event type"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['checkout', 'package_shipped', 'add_to_cart', 'page_view']
+      - name: page_url
+        data_type: varchar
+        description: "URL of the page associated with the event"
+        tests:
+          - not_null
+      - name: first_name
+        data_type: varchar
+        description: "First name of the user"
+        tests:
+          - not_null
+      - name: email
+        data_type: varchar
+        description: "Email address of the user"
+        tests:
+          - not_null
+      - name: product_desc
+        data_type: varchar
+        description: "Name of the product"
+        tests:
+          - not_null
+      - name: created_at_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the data was created" 
+        tests:
+          - not_null
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the data was loaded"
 
   - name: dim_addresses
     description: "Dimension table containing address information"
@@ -266,32 +326,123 @@ models:
         description: "Date and time when the data was loaded"
 
   - name: dim_date
-    description: "Dimension table containing date information."
+    description: "Dimension table containing date information"
     columns:
-      - name: date_key
+      - name: id_date
         data_type: varchar
-        description: "Primary key for dates."
+        description: "Primary key for dates"
         tests:
           - not_null
           - unique
       - name: date
         data_type: date
-        description: "Date value."
+        description: "Date value"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: date
+      - name: day_of_week
+        data_type: number
+        description: "Day of the week"
+        tests:
+          - not_null
+      - name: day_desc
+        data_type: varchar
+        description: "Description of the day of the week"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+      - name: week_day_desc
+        data_type: varchar
+        description: "Description of the type of week day of the week"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Weekday', 'Weekend']
       - name: day_of_month
         data_type: number
-        description: "Day of the month."
+        description: "Day of the month"
+        tests:
+          - not_null
+      - name: day_of_year
+        data_type: number
+        description: "Day of the year"
+        tests:
+          - not_null
       - name: month_of_year
         data_type: number
-        description: "Month of the year."
-      - name: year_number
-        data_type: number
-        description: "Year number."
-      - name: day_of_week
+        description: "Month of the year"
+        tests:
+          - not_null
+      - name: month_desc
         data_type: varchar
-        description: "Day of the week."
-      - name: week_of_year
-        data_type: number
-        description: "Week of the year."
+        description: "Description of the month of the year"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
       - name: quarter_of_year
         data_type: number
-        description: "Quarter of the year."
+        description: "Quarter of the year"
+        tests:
+          - not_null
+      - name: year_number
+        data_type: number
+        description: "Year number"
+        tests:
+          - not_null
+
+  - name: dim_time
+    description: "Dimension table containing time information"
+    columns:
+      - name: id_time
+        data_type: varchar
+        description: "Primary key for times"
+        tests:
+          - not_null
+          - unique
+      - name: time_utc
+        data_type: date
+        description: "Time value"
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: time
+      - name: hour_of_day
+        data_type: number
+        description: "Hour of the day number"
+        tests:
+          - not_null
+      - name: minute_of_hour
+        data_type: number
+        description: "Minute of the hour number"
+        tests:
+          - not_null
+      - name: second_of_minute
+        data_type: number
+        description: "Second of the minute number"
+        tests:
+          - not_null
+      - name: period_of_day
+        data_type: varchar
+        description: "Classification of the period of the day"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['am', 'pm']
+      - name: daytime_name
+        data_type: varchar
+        description: "Description of the day periods"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Morning', 'Midday', 'Afternoon', 'Evening', 'Night']
+      - name: day_night
+        data_type: varchar
+        description: "Classification of day and night"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Day', 'Night']
+        
