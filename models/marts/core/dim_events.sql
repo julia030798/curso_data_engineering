@@ -6,8 +6,7 @@
   )
 }}
 
-with stg_events as 
-(
+with stg_events as (
     select 
           e.id_event
         , e.event_type

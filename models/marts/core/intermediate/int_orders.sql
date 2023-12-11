@@ -22,7 +22,7 @@ with stg_orders_promos as (
 
 int_orders as (
     select
-        id_order
+          id_order
         , order_cost_usd
         , shipping_cost_usd
         , case
@@ -39,3 +39,5 @@ int_orders as (
           end as discount_percentage
     from stg_orders_promos
 )
+
+select * from int_orders
