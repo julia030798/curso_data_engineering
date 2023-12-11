@@ -26,9 +26,15 @@ stg_budget as (
           {{ dbt_utils.generate_surrogate_key(['product_id', 'month']) }} as id_budget
         , {{ dbt_utils.generate_surrogate_key(['product_id']) }} as id_product
         , quantity::int as quantity
-        , {{ dbt_utils.generate_surrogate_key(['month']) }} as id_date
+        , month::date as date_month
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from src_budget
     )
 
-select * from stg_budget
+select 
+      id_budget
+    , id_product
+    , quantity
+    , date_part('month', date_month) as month_of_budget
+    , date_load_utc
+from stg_budget

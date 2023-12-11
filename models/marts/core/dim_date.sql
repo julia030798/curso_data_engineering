@@ -18,6 +18,10 @@ dim_date_null as (
         , date_day as date
         , day_of_week
         , day_of_week_name as day_desc
+        , case
+            when day_desc in ('Saturday', 'Sunday') then 'Weekend'
+            else 'Weekday'
+          end as week_day_desc
         , day_of_month
         , day_of_year
         , week_of_year
@@ -39,6 +43,7 @@ dim_date_null as (
         , null
         , null
         , null
+        , null
 )
 
 select
@@ -46,6 +51,7 @@ select
     , date
     , day_of_week
     , day_desc
+    , week_day_desc
     , day_of_month
     , day_of_year
     , week_of_year
