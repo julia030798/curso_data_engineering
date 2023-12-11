@@ -1,0 +1,16 @@
+version: 2
+
+seeds:
+  - name: seed_state_codes
+    description: "Data for state codes in the United States"
+    columns:
+      - name: code
+        description: "State code"
+        tests:
+          - unique
+          - not_null
+
+      - name: state
+        description: "State name"
+        tests:
+          - not_null

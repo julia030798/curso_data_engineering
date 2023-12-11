@@ -1,0 +1,340 @@
+version: 2
+
+models:
+  - name: stg_sql_server_dbo_addresses
+    description: "Staging model for addresses data"
+    columns:
+      - name: id_address
+        data_type: varchar
+        description: "Unique identifier for the address"
+        tests:
+          - unique
+          - not_null
+      - name: address
+        data_type: varchar
+        description: "Description of the address"
+        tests:
+          - not_null
+      - name: zipcode
+        data_type: number
+        description: "Postal code of the address"
+        tests:
+          - not_null
+          - positive_values
+      - name: state
+        data_type: varchar
+        description: "State of the address"
+        tests:
+          - not_null
+      - name: country
+        data_type: varchar
+        description: "Country of the address"
+        tests:
+          - not_null
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+
+  - name: stg_sql_server_dbo_events
+    description: "Staging model for events data"
+    columns:
+      - name: id_event
+        data_type: varchar
+        description: "Unique identifier for the event"
+        tests:
+          - unique
+          - not_null
+      - name: page_url
+        data_type: varchar
+        description: "URL of the page associated with the event"
+      - name: event_type
+        data_type: varchar
+        description: "Type of event"
+      - name: id_user
+        data_type: varchar
+        description: "Identifier of the user associated with the event"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_users')
+              field: id_user
+      - name: id_product
+        data_type: varchar
+        description: "Identifier referencing the product associated with the event"
+        tests:
+          - dbt_utils.not_empty_string
+          - dbt_utils.relationships_where:
+              to: ref('stg_sql_server_dbo_products')
+              field: id_product
+              from_condition: id_product is not null
+              to_condition: id_product is not null
+      - name: id_session
+        data_type: varchar
+        description: "Identifier for the session of the event"
+      - name: id_order
+        data_type: varchar
+        description: "Identifier referencing the order associated with the event"
+        tests:
+          - dbt_utils.not_empty_string
+          - dbt_utils.relationships_where:
+              to: ref('stg_sql_server_dbo_orders')
+              field: id_order
+              from_condition: id_order is not null
+              to_condition: id_order is not null
+      - name: created_at_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the event was created"
+        tests:
+          - not_null
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+
+  - name: stg_sql_server_dbo_order_items
+    description: "Staging model for order items data"
+    columns:
+      - name: id_order
+        data_type: varchar
+        description: "Identifier referencing the order associated with the item"
+        tests: 
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_orders')
+              field: id_order
+      - name: id_product
+        data_type: varchar
+        description: "Indentifier referencing the product associated with the item"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_products')
+              field: id_product
+      - name: quantity
+        data_type: number
+        description: "Quantity of the product in the order"
+        tests:
+          - not_null
+          - positive_values
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+
+  - name: stg_sql_server_dbo_orders
+    description: "Staging model for orders data"
+    columns:
+      - name: id_order
+        data_type: varchar
+        description: "Unique identifier for the order"
+        tests:
+          - unique
+          - not_null
+      - name: id_user
+        data_type: varchar
+        description: "Identifier referencing the user associated with the order"
+        tests: 
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_users')
+              field: id_user
+      - name: id_date_created
+        data_type: varchar
+        description: "Date when the order was created"
+        tests:
+          - not_null
+      - name: id_time_created
+        data_type: varchar
+        description: "Time when the order was created"
+        tests:
+          - not_null
+      - name: order_cost_usd
+        data_type: float
+        description: "Cost of the order in USD"
+        tests:
+          - not_null
+      - name: status
+        data_type: varchar
+        description: "Status of the order"
+        tests:
+          - not_null
+      - name: shipping_service
+        data_type: varchar
+        description: "Shipping service used for the order"
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: shipping_cost_usd
+        data_type: float
+        description: "Shipping cost of the order in USD"
+        tests:
+          - not_null
+      - name: order_total_usd
+        data_type: float
+        description: "Total cost of the order in USD"
+        tests:
+          - not_null
+      - name: id_address
+        data_type: varchar
+        description: "Identifier referencing the address associated with the order"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_addresses')
+              field: id_address
+      - name: id_date_estimated_delivery
+        data_type: varchar
+        description: "Date when the order is estimated to be delivered"
+      - name: id_time_estimated_delivery
+        data_type: varchar
+        description: "Time when the order is estimated to be delivered"
+      - name: id_date_delivered
+        data_type: varchar
+        description: "Date of the order delivery"
+      - name: id_time_delivered
+        data_type: varchar
+        description: "Time of the order delivery"
+      - name: id_tracking
+        data_type: varchar
+        description: "Tracking ID for the order"
+        tests:
+          - dbt_utils.not_empty_string
+      - name: id_promo
+        data_type: varchar
+        description: "Identifier referencing the promo associated with the order"
+        tests:
+          - not_null
+          - dbt_utils.not_empty_string
+      - name: date_load_utz
+        data_type: timestamp_ntz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+
+  - name: stg_sql_server_dbo_products
+    description: "Staging model for products data"
+    columns:
+      - name: id_product
+        data_type: varchar
+        description: "Unique identifier for the product"
+        tests:
+          - unique 
+          - not_null
+      - name: product_desc
+        data_type: varchar
+        description: "Name of the product"
+      - name: price_usd
+        data_type: float
+        description: "Price of the product in USD"
+        tests:
+              - not_null
+              - positive_values
+      - name: inventory
+        data_type: number
+        description: "Inventory count of the product"
+        tests:
+              - not_null
+              - positive_values
+      - name: date_loaded
+        data_type: timestamp_ntz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+
+  - name: stg_sql_server_dbo_promos
+    description: "Staging model for promotion data"
+    columns:
+      - name: id_promo
+        data_type: varchar
+        description: "Unique identifier for the promotion"
+        tests:
+          - unique 
+          - not_null
+      - name: promo_desc
+        description: "Description of the promotion"
+        tests:
+          - not_null 
+          - dbt_utils.not_empty_string
+      - name: discount_usd
+        data_type: number
+        description: "Discount value for the promotion in USD"
+        tests:
+          - not_null
+          - positive_values
+      - name: status
+        data_type: varchar
+        description: "Status of the promotion"
+        tests:
+          - not_null
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+
+  - name: stg_sql_server_dbo_users
+    description: "Staging model for users data"
+    columns:
+      - name: id_user
+        data_type: varchar
+        description: "Unique identifier for the user"
+        tests:
+          - unique 
+          - not_null
+      - name: first_name
+        data_type: varchar
+        description: "First name of the user"
+        tests:
+          - not_null
+      - name: last_name
+        data_type: varchar
+        description: "Last name of the user"
+        tests:
+          - not_null
+      - name: email
+        data_type: varchar
+        description: "Email address of the user"
+        tests:
+          - not_null
+      - name: phone_number
+        data_type: varchar
+        description: "Phone number of the user"
+        tests:
+          - not_null
+      - name: id_address
+        data_type: varchar
+        description: "Identifier referencing the address associated with the user"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sql_server_dbo_addresses')
+              field: id_address
+      - name: created_at_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the user was created"
+        tests: 
+          - not_null  
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+      - name: updated_at_utc
+        data_type: timestamp_tz
+        description: "Date and time when the user was last updated"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
+      - name: date_load_utc
+        data_type: timestamp_tz
+        description: "Date and time of the last synchronization with Fivetran"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_of_type:
+              column_type: timestamp_ntz
