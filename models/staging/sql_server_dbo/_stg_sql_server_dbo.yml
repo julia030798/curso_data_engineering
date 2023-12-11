@@ -145,9 +145,14 @@ models:
           - relationships:
               to: ref('stg_sql_server_dbo_users')
               field: id_user
-      - name: created_at_utc
-        data_type: timestamp_ntz
-        description: "Date and time when the order was created"
+      - name: id_date_created
+        data_type: varchar
+        description: "Date when the order was created"
+        tests:
+          - not_null
+      - name: id_time_created
+        data_type: varchar
+        description: "Time when the order was created"
         tests:
           - not_null
       - name: order_cost_usd
@@ -184,12 +189,18 @@ models:
           - relationships:
               to: ref('stg_sql_server_dbo_addresses')
               field: id_address
-      - name: estimated_delivery_at_utc
-        data_type: timestamp_tz
-        description: "Date and time when the order is estimated to be delivered"
-      - name: delivered_at_utc
-        data_type: timestamp_tz
-        description: "Date and time of the order delivery"
+      - name: id_date_estimated_delivery
+        data_type: varchar
+        description: "Date when the order is estimated to be delivered"
+      - name: id_time_estimated_delivery
+        data_type: varchar
+        description: "Time when the order is estimated to be delivered"
+      - name: id_date_delivered
+        data_type: varchar
+        description: "Date of the order delivery"
+      - name: id_time_delivered
+        data_type: varchar
+        description: "Time of the order delivery"
       - name: id_tracking
         data_type: varchar
         description: "Tracking ID for the order"
