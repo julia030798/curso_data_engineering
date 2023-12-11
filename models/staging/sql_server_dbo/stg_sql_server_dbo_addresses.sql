@@ -16,20 +16,18 @@
   )
 }}
 
-with src_addresses as (
-    select *
-    from {{ source('sql_server_dbo', 'addresses') }}
-    ),
-
-stg_addresses as (
+with stg_addresses as (
     select 
-          {{ dbt_utils.generate_surrogate_key(['address_id']) }} as id_address
-        , address::varchar(50) as address
-        , zipcode::int as zipcode
-        , state::varchar(50) as state
-        , country::varchar(50) as country
-        , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
-    from src_addresses
+          a.id_address
+        , a.address
+        , a.zipcode
+        , a.state
+        , s.Code
+        , a.country
+        , a.date_load_utc
+    from {{ ref('base_sql_server_dbo_addresses') }} a 
+    left join {{ ref('base_state_codes') }} s
+    on a.state=s.state
     )
 
 select * from stg_addresses
