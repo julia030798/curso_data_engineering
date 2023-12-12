@@ -42,5 +42,6 @@ dim_shipping as (
     from stg_orders_addresses
 )
 
-select * from dim_shipping
+select * 
+from dim_shipping
 order by status

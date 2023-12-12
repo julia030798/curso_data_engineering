@@ -26,7 +26,6 @@ with fct_order_items as
         , percentage_of_order_cost
         , shipping_cost_item_usd
         , percentage_of_shipping_cost
-        , product_profit
         , inventory
         , inventory_value
     from {{ ref("int_orders_pivoted_to_order_items") }}

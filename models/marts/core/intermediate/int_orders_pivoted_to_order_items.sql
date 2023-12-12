@@ -48,10 +48,9 @@ int_orders_pivoted as (
         , id_product
         , quantity
         , price_usd::decimal(7,2) as item_cost_usd
-        , (item_cost_usd / order_total_usd) * 100 as percentage_of_order_cost
+        , ((item_cost_usd / order_total_usd) * 100)::decimal(7,2) as percentage_of_order_cost
         , ((price_usd / order_total_usd) * shipping_cost_usd)::decimal(7,2) AS shipping_cost_item_usd
-        , (shipping_cost_item_usd / shipping_cost_usd) * 100 as percentage_of_shipping_cost
-        , (price_usd + ((price_usd / order_total_usd) * shipping_cost_usd)) - order_total_usd as product_profit
+        , ((shipping_cost_item_usd / shipping_cost_usd) * 100)::decimal(7,2) as percentage_of_shipping_cost
         , inventory
         , inventory * price_usd::decimal(7,2) as inventory_value
     from stg_orders_order_items_products
