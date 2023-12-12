@@ -7,8 +7,7 @@
   )
 }}
 
-with dim_promos as 
-(
+with dim_promos as (
     select *
     from {{ ref('stg_sql_server_dbo_promos') }}
 {% if is_incremental() %}
@@ -16,7 +15,7 @@ with dim_promos as
 	  where date_load_utc > (select max(date_load_utc) from {{ this }} )
 
 {% endif %}
-),
+)
 
 select
     id_promo,
@@ -25,5 +24,4 @@ select
     status,
     date_load_utc
 from dim_promos
-where dbt_valid_to is null
 order by status
