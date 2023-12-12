@@ -7,7 +7,7 @@
 
 with stg_event_types AS (
     select distinct 
-                  event_type_key
+                  id_event_type
                 , event_type
                 , date_load_utc
     FROM {{ ref('stg_sql_server_dbo_events') }}
