@@ -9,6 +9,7 @@ with stg_event_types as (
     select distinct 
                   id_event_type
                 , event_type
+                , page_url
                 , date_load_utc
     from {{ ref('stg_sql_server_dbo_events') }}
 {% if is_incremental() %}
