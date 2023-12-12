@@ -38,8 +38,8 @@ with src_events as (
 stg_events as (
     select
           {{ dbt_utils.generate_surrogate_key(['event_id']) }} as id_event
+        , {{ dbt_utils.generate_surrogate_key(['page_url']) }} as id_page
         , page_url
-        , {{ dbt_utils.generate_surrogate_key(['event_type']) }} as id_event_type
         , event_type
         , {{ dbt_utils.generate_surrogate_key(['user_id']) }} as id_user
         , case

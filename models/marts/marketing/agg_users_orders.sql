@@ -28,7 +28,7 @@ with agg_users_orders as (
     on u.id_user = oi.id_user
     left join {{ ref('dim_promos') }} dp 
     on oi.id_promo = dp.id_promo
-    left join {{ ref('dim_promos') }} a
+    left join {{ ref('dim_addresses') }} a
     on oi.id_address=a.id_address
     group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 )

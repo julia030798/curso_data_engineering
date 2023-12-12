@@ -1,4 +1,3 @@
-
 {{
   config(
       materialized='incremental'
@@ -9,7 +8,6 @@
 with stg_events as (
     select 
           id_event
-        , id_event_type
         , id_user
         , id_session
         , id_product
