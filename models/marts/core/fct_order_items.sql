@@ -1,7 +1,7 @@
 
 {{
   config(
-    materialized='incremental'
+    materialized='table'
   )
 }}
 
@@ -30,11 +30,6 @@ with fct_order_items as
         , inventory
         , inventory_value
     from {{ ref("int_orders_pivoted_to_order_items") }}
-{% if is_incremental() %}
-
-	  where date_load_utc > (select max(date_load_utc) from {{ this }} )
-
-{% endif %}
 )
 
 select * 
