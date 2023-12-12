@@ -47,6 +47,10 @@ models:
         +schema: core
       marketing:
         +schema: marketing
+      finance:
+        +schema: finance
+      product:
+        +schema: product
         
 seeds:
   +schema: seed_data
