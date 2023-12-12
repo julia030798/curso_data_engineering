@@ -8,7 +8,10 @@
 }}
 
 with dim_sessions as (
-    select *
+    select distinct
+          id_user
+        , id_session
+        , date_load_utc
     from {{ ref('stg_sql_server_dbo_events') }}
 {% if is_incremental() %}
 
@@ -18,5 +21,10 @@ with dim_sessions as (
 )
 
 select 
-    id_session
-from dim_sessions
+      s.id_session
+    , u.first_name
+    , u.last_name
+    , u.email
+from dim_sessions s
+left join {{ ref('stg_sql_server_dbo_users') }} u
+on s.id_user=u.id_user

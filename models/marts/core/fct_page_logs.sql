@@ -8,6 +8,7 @@
 with stg_events as (
     select 
           id_event
+        , id_page
         , id_user
         , id_session
         , id_product
