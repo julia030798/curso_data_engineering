@@ -21,6 +21,7 @@ dim_addresses as (
           id_address
         , address
         , zipcode
+        , Code
         , state
         , country
         , date_load_utc

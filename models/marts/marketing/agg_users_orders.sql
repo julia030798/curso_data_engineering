@@ -15,6 +15,7 @@ with agg_users_orders as (
         , u.address
         , u.zipcode
         , u.state
+        , a.Code
         , u.country
         , count(distinct oi.id_order) as total_orders
         , sum(oi.item_cost_usd) as total_spent
@@ -27,7 +28,9 @@ with agg_users_orders as (
     on u.id_user = oi.id_user
     left join {{ ref('dim_promos') }} dp 
     on oi.id_promo = dp.id_promo
-    group by 1, 2, 3, 4, 5, 6, 7, 8, 9
+    left join {{ ref('dim_promos') }} a
+    on oi.id_address=a.id_address
+    group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 )
 
 select * 
