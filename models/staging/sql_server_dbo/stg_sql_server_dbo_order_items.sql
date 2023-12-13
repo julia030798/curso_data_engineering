@@ -11,7 +11,6 @@
 {{
   config(
     materialized='incremental'
-    , unique_key='id_promo'
     , on_schema_change='fail'
   )
 }}

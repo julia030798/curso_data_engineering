@@ -26,7 +26,7 @@ with stg_users_addresses as
     left join
     {{ ref('stg_sql_server_dbo_addresses') }} a
     on u.id_address=a.id_address
-)
+),
 
 dim_users as (
     select 
