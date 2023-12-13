@@ -85,3 +85,111 @@ models:
         description: "Total number of unique products purchased by the user"
         tests:
           - not_null
+
+ - name: agg_users_sessions
+    description: "Model representing user session details"
+    columns:
+      - name: id_session
+        data_type: varchar
+        description: "Foreign key referring to the sessions dimension"
+        tests:
+          - not_null
+      - name: id_user
+        data_type: varchar
+        description: "Foreign key referring to the users dimension"
+        tests:
+          - not_null
+      - name: first_name
+        data_type: varchar
+        description: "User's first name"
+        tests:
+          - not_null
+      - name: last_name
+        data_type: varchar
+        description: "User's last name"
+        tests:
+          - not_null
+      - name: email
+        data_type: varchar
+        description: "User's email address"
+        tests:
+          - not_null
+      - name: phone_number
+        data_type: varchar
+        description: "User's phone number"
+        tests:
+          - not_null
+      - name: address
+        data_type: varchar
+        description: "User's address"
+        tests:
+          - not_null
+      - name: zipcode
+        data_type: number
+        tests:
+          - not_null
+      - name: state
+        data_type: varchar
+        description: "Zipcode of the user's address"
+        tests:
+          - not_null
+      - name: country
+        data_type: varchar
+        description: "User's country"
+        tests:
+          - not_null
+      - name: session_start_date
+        data_type: date
+        description: "Start date of the session"
+        tests:
+          - not_null
+      - name: session_end_date
+        data_type: date
+        description: "End date of the session"
+        tests:
+          - not_null
+      - name: session_start_time
+        data_type: time
+        description: "Start time of the session"
+        tests:
+          - not_null
+      - name: session_end_time
+        data_type: time
+        description: "End time of the session"
+        tests:
+          - not_null
+      - name: duration_minutes
+        data_type: time
+        description: "Duration of the session in minutes"
+        tests:
+          - not_null
+      - name: duration_hours
+        data_type: time
+        description: "Duration of the session in hours"
+        tests:
+          - not_null
+      - name: num_page_views
+        data_type: number
+        description: "Number of page views during the session"
+        tests:
+          - not_null
+      - name: event_page_view
+        data_type: number
+        description: "Number of 'page-view' events"
+        tests:
+          - not_null
+      - name: event_add_to_cart
+        data_type: number
+        description: "Number of 'add-to-cart' events"
+        tests:
+          - not_null
+      - name: event_package_shipped
+        data_type: number
+        description: "Number of 'package-shipped' events"
+        tests:
+          - not_null
+      - name: checkout
+        data_type: number
+        description: "Number of 'checkout' events"
+        tests:
+          - not_null
