@@ -39,6 +39,9 @@ models:
         +schema: seed_state_codes
         base:
           +schema: base
+    
+    intermediate: 
+            +materialized: ephemeral
       
     marts:
       +materialized: table
