@@ -1,0 +1,32 @@
+
+version: 2
+
+models:
+  - name: int_session_duration
+    description: "Intermediate model that calculates de duration of the sessions"
+    columns:
+      - name: id_session
+        data_type: varchar
+        description: "Primary key for sessions"
+        tests: 
+          - unique
+          - not_null
+      - name: session_start_time
+        data_type: time
+        description: "Start time of the session"
+        tests: 
+          - not_null
+      - name: session_en_time
+        data_type: time
+        description: "End time of the session"
+      - name: duration_minutes
+        data_type: number
+        description: "Durantion of the session in minutes"
+        tests: 
+          - positive_values
+      - name: duration_hours
+        data_type: number
+        description: "Durantion of the session in hours"
+        tests: 
+          - not_null
+          - positive_values

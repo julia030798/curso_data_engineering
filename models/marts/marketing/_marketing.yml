@@ -1,0 +1,192 @@
+
+version: 2
+
+models:
+  - name: agg_users_orders
+    description: "Model representing aggregation of user-specific order information"
+    columns:
+      - name: id_user
+        data_type: varchar
+        description: "Foreign key referring to the users dimension"
+        tests:
+          - not_null
+      - name: first_name
+        data_type: varchar
+        description: "User's first name"
+        tests:
+          - not_null
+      - name: last_name
+        data_type: varchar
+        description: "User's last name"
+        tests:
+          - not_null
+      - name: email
+        data_type: varchar
+        description: "User's email address"
+        tests:
+          - not_null
+      - name: phone_number
+        data_type: varchar
+        description: "User's phone number"
+        tests:
+          - not_null
+      - name: address
+        data_type: varchar
+        description: "User's address"
+        tests:
+          - not_null
+      - name: zipcode
+        data_type: number
+        description: "User's ZIP code"
+        tests:
+          - not_null
+      - name: state
+        data_type: varchar
+        description: "User's state"
+        tests:
+          - not_null
+      - name: Code
+        data_type: varchar
+        description: "State code of the users' state"
+      - name: country
+        data_type: varchar
+        description: "User's country"
+        tests:
+          - not_null
+      - name: total_orders
+        data_type: number
+        description: "Total number of orders placed by the user"
+        tests:
+          - not_null
+      - name: total_spent
+        data_type: number
+        description: "Total amount spent by the user"
+        tests:
+          - not_null
+      - name: total_shipping_cost
+        data_type: number
+        description: "Total shipping cost incurred by the user"
+        tests:
+          - not_null
+      - name: total_discount
+        data_type: number
+        description: "Total discount applied to the user's orders"
+        tests:
+          - not_null
+      - name: total_products_purchased
+        data_type: number
+        description: "Total number of products purchased by the user"
+        tests:
+          - not_null
+      - name: total_unique_products_purchased
+        data_type: number
+        description: "Total number of unique products purchased by the user"
+        tests:
+          - not_null
+
+  - name: agg_users_sessions
+    description: "Model representing user session details"
+    columns:
+      - name: id_session
+        data_type: varchar
+        description: "Foreign key referring to the sessions dimension"
+        tests:
+          - not_null
+      - name: id_user
+        data_type: varchar
+        description: "Foreign key referring to the users dimension"
+        tests:
+          - not_null
+      - name: first_name
+        data_type: varchar
+        description: "User's first name"
+        tests:
+          - not_null
+      - name: last_name
+        data_type: varchar
+        description: "User's last name"
+        tests:
+          - not_null
+      - name: email
+        data_type: varchar
+        description: "User's email address"
+        tests:
+          - not_null
+      - name: phone_number
+        data_type: varchar
+        description: "User's phone number"
+        tests:
+          - not_null
+      - name: address
+        data_type: varchar
+        description: "User's address"
+        tests:
+          - not_null
+      - name: zipcode
+        data_type: number
+        tests:
+          - not_null
+      - name: state
+        data_type: varchar
+        description: "Zipcode of the user's address"
+        tests:
+          - not_null
+      - name: country
+        data_type: varchar
+        description: "User's country"
+        tests:
+          - not_null
+      - name: session_start_date
+        data_type: date
+        description: "Start date of the session"
+        tests:
+          - not_null
+      - name: session_end_date
+        data_type: date
+        description: "End date of the session"
+        tests:
+          - not_null
+      - name: session_start_time
+        data_type: time
+        description: "Start time of the session"
+        tests:
+          - not_null
+      - name: session_end_time
+        data_type: time
+        description: "End time of the session"
+        tests:
+          - not_null
+      - name: duration_minutes
+        data_type: time
+        description: "Duration of the session in minutes"
+        tests:
+          - not_null
+      - name: duration_hours
+        data_type: time
+        description: "Duration of the session in hours"
+        tests:
+          - not_null
+      - name: num_page_views
+        data_type: number
+        description: "Number of page views during the session"
+        tests:
+          - not_null
+      - name: event_page_view
+        data_type: number
+        description: "Number of 'page-view' events"
+        tests:
+          - not_null
+      - name: event_add_to_cart
+        data_type: number
+        description: "Number of 'add-to-cart' events"
+        tests:
+          - not_null
+      - name: checkout
+        data_type: number
+        description: "Number of 'checkout' events"
+      - name: event_package_shipped
+        data_type: number
+        description: "Number of 'package-shipped' events"
+        tests:
+          - not_null
+

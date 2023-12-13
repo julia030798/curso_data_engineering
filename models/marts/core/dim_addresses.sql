@@ -1,6 +1,6 @@
 
 {{ config(
-    materialized='incremental'
+    materialized='table'
     , unique_key = 'id_address'
     ) 
     }}
@@ -9,11 +9,6 @@
 with stg_addresses as (
     select * 
     from {{ ref('stg_sql_server_dbo_addresses') }}
-{% if is_incremental() %}
-
-	  where date_load_utc > (select max(date_load_utc) from {{ this }})
-
-{% endif %}
     ),
 
 dim_addresses as (

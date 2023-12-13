@@ -31,7 +31,7 @@ with stg_orders_addresses as (
 
 dim_shipping as (
     select
-        id_tracking
+          id_tracking
         , shipping_service
         , status
         , address
@@ -40,6 +40,7 @@ dim_shipping as (
         , country
         , date_load_utc
     from stg_orders_addresses
+    where id_tracking is not null
 )
 
 select * 

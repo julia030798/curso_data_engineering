@@ -20,4 +20,5 @@ with dim_events as (
 select
       id_event
     , event_type
+    , date_load_utc
 from dim_events

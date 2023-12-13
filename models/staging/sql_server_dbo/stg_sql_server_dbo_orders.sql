@@ -10,7 +10,7 @@
 
 {{
   config(
-    materialized='view'
+    materialized='incremental'
     , unique_key='id_order'
     , on_schema_change='fail'
   )
@@ -36,6 +36,11 @@ with src_orders as (
         , decode (promo_id, '', 'no promo', promo_id) AS id_promo
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} as date_load_utc
     from {{ source('sql_server_dbo', 'orders') }}
+{% if is_incremental() %}
+
+	  where date_load_utc > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
     ),
 
 stg_orders as (

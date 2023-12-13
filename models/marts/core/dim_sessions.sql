@@ -25,6 +25,7 @@ select
     , u.first_name
     , u.last_name
     , u.email
+    , s.date_load_utc
 from dim_sessions s
 left join {{ ref('stg_sql_server_dbo_users') }} u
 on s.id_user=u.id_user

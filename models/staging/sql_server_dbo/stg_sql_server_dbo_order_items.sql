@@ -10,8 +10,7 @@
 
 {{
   config(
-    materialized='view'
-    , unique_key='id_order_item'
+    materialized='incremental'
     , on_schema_change='fail'
   )
 }}
@@ -23,6 +22,11 @@ with src_order_items as (
         , quantity::int as quantity
         , _fivetran_synced
     from {{ source('sql_server_dbo', 'order_items') }}
+{% if is_incremental() %}
+
+	  where _fivetran_synced > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
     ),
 
 stg_order_items as (

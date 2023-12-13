@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: agg_state_products_sales
+    description: "Model representing the top-selling products by state and date"
+    columns:
+      - name: state
+        data_type: varchar
+        description: "State where the products where purchased"
+        tests:
+          - not_null
+      - name: date
+        data_type: date
+        description: "Date of sales"
+        tests:
+          - not_null
+      - name: month_desc
+        data_type: varchar
+        description: "Description of the month of sales"
+        tests:
+          - not_null
+      - name: year_number
+        data_type: number
+        description: "Year of sales"
+        tests:
+          - not_null
+      - name: id_product
+        data_type: varchar
+        description: "Foreign key referring to the products dimension"
+        tests:
+          - not_null
+      - name: most_sold_product_desc
+        data_type: varchar
+        description: "Description of the top-selling product"
+        tests:
+          - not_null
+      - name: most_sold_product_price
+        data_type: number
+        description: Price of the top-selling product""
+        tests:
+          - not_null
+      - name: units_sold
+        data_type: number
+        description: "Number of units sold per product"
+        tests:
+          - not_null

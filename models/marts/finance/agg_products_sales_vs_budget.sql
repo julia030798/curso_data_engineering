@@ -40,8 +40,8 @@ select
     psm.total_orders,
     case when psm.total_sales_product_month_usd > pb.budget then true else false end as over_budget
 from product_budget pb
-left join {{ ref('dim_products') }} dp 
+join {{ ref('dim_products') }} dp 
 on pb.id_product = dp.id_product
-left join product_sales_month psm 
+join product_sales_month psm 
 on pb.id_product = psm.id_product and pb.year = psm.year_sale and pb.month = psm.month_sale
 order by pb.year, pb.month, pb.id_product

@@ -61,3 +61,4 @@ select
     , daytime_name
     , day_night
 from dim_time_null
+where id_time is not null
