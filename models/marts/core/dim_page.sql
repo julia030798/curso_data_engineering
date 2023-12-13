@@ -8,7 +8,10 @@
 }}
 
 with dim_page as (
-    select *
+    select distinct
+        id_page
+        , page_url
+        date_load_utc
     from {{ ref('stg_sql_server_dbo_events') }}
 {% if is_incremental() %}
 
@@ -17,7 +20,5 @@ with dim_page as (
 {% endif %}
 )
 
-select 
-      id_page
-    , page_url
+select *
 from dim_page

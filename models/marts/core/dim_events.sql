@@ -17,7 +17,7 @@ with dim_events as (
 {% endif %}
 )
 
-select 
+select
       id_event
     , event_type
 from dim_events
