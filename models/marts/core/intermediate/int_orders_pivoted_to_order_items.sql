@@ -26,8 +26,8 @@ with stg_orders_order_items_products as (
         , p.price_usd
         , p.inventory
     from {{ ref("stg_sql_server_dbo_orders") }} o
-    left join {{ ref("stg_sql_server_dbo_order_items") }} i on o.id_order = i.id_order
-    left join {{ ref("stg_sql_server_dbo_products") }} p on i.id_product = p.id_product
+    join {{ ref("stg_sql_server_dbo_order_items") }} i on o.id_order = i.id_order
+    join {{ ref("stg_sql_server_dbo_products") }} p on i.id_product = p.id_product
 ),
 
 -- Calculate metrics

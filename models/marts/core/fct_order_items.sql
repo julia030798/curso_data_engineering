@@ -2,6 +2,7 @@
 {{
   config(
     materialized='incremental'
+    , unique_key = ['id_order', 'id_product']
     , on_schema_change='fail'
   )
 }}

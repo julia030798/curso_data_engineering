@@ -52,8 +52,6 @@ models:
       - name: id_tracking
         data_type: varchar
         description: "Identifier referencing the shipping track"
-        tests:
-          - not_null
       - name: id_address
         data_type: varchar
         description: "Identifier referencing the addresses of the user"

@@ -86,7 +86,7 @@ models:
         tests:
           - not_null
 
- - name: agg_users_sessions
+  - name: agg_users_sessions
     description: "Model representing user session details"
     columns:
       - name: id_session

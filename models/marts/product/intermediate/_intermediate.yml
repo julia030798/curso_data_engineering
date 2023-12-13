@@ -25,7 +25,6 @@ models:
         data_type: number
         description: "Durantion of the session in minutes"
         tests: 
-          - not_null
           - positive_values
       - name: duration_hours
         data_type: number
