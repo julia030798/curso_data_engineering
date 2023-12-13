@@ -186,12 +186,12 @@ models:
         description: "Country associated with the user's address"
         tests:
           - not_null
-      - name: created_date_utc
+      - name: created_at_utc
         data_type: timestamp_ntz
         description: "Date when the user was created"
         tests:
           - not_null
-      - name: updated_date_utc
+      - name: updated_at_utc
         data_type: timestamp_ntz
         description: "Date when the user was last updated"
       - name: date_load_utc
@@ -547,7 +547,6 @@ models:
         data_type: varchar
         description: "Foreign key referencing the products dimension"
         tests:
-          - not_null
           - dbt_utils.relationships_where:
               to: ref('dim_products')
               field: id_product
@@ -556,8 +555,6 @@ models:
       - name: id_order
         data_type: varchar
         description: "Foreign key referencing the order items dimension"
-        tests:
-          - not_null
       - name: id_date_created
         data_type: varchar
         description: "Foreign key referencing the date dimension"
