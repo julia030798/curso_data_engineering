@@ -11,7 +11,7 @@
 {{
   config(
     materialized='incremental'
-    , unique_key='id_promo'
+    , unique_key='id_order'
     , on_schema_change='fail'
   )
 }}
