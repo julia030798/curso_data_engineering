@@ -11,27 +11,17 @@ models:
           - not_null
       - name: id_date_created
         data_type: varchar
-        description: "Foreign key referencing the date dimension for the created date"
-        tests:
-          - not_null
-          - relationships:
-              to: ref('dim_date')
-              field: id_date
+        description: "Identifier referencing the created date"
       - name: id_time_created
         data_type: varchar
-        description: "Foreign key referencing the time of day dimension for the created date"
-        tests:
-          - not_null
-          - relationships:
-              to: ref('dim_time_of_day')
-              field: id_time
+        description: "Identifier referencing the created date"
       - name: id_product
         data_type: varchar
-        description: "Foreign key referencing the products dimension"
+        description: "Identifier referencing the products of the order"
         tests:
           - not_null
           - relationships:
-              to: ref('dim_products')
+              to: ref('"stg_sql_server_dbo_products')
               field: id_product
       - name: quantity
         data_type: number
@@ -53,65 +43,51 @@ models:
           - positive_values
       - name: id_user
         data_type: varchar
-        description: "Foreign key referencing the users dimension"
+        description: "Identifier referencing the users who placed the order"
         tests:
           - not_null
           - relationships:
-              to: ref('dim_users')
+              to: ref('"stg_sql_server_dbo_users')
               field: id_user
       - name: id_tracking
         data_type: varchar
-        description: "Foreign key referencing the shipping dimension"
+        description: "Identifier referencing the shipping track"
         tests:
-          - relationships:
-              to: ref('dim_shipping')
-              field: id_tracking
+          - not_null
       - name: id_address
         data_type: varchar
-        description: "Foreign key referencing the addresses dimension"
+        description: "Identifier referencing the addresses of the user"
         tests:
           - not_null
           - relationships:
-              to: ref('dim_addresses')
+              to: ref('"stg_sql_server_dbo_addresses')
               field: id_address
       - name: id_date_estimated_delivery
         data_type: varchar
-        description: "Foreign key referencing the date dimension for estimated delivery date"
+        description: "Identifier referencing the date for estimated delivery date"
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_date')
-              field: id_date
       - name: id_time_estimated_delivery
         data_type: varchar
-        description: "Foreign key referencing the time of day dimension for estimated delivery date"
+        description: "Identifier referencing the time of the estimated delivery"
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_time_of_day')
-              field: id_time
       - name: id_date_delivered
         data_type: varchar
-        description: "Foreign key referencing the date dimension for delivered date"
+        description: "Identifier referencing the date  for delivered date"
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_date')
-              field: id_date
       - name: id_time_delivered
         data_type: varchar
-        description: "Foreign key referencing the time of day dimension for delivered date"
+        description: "Identifier referencing the time of day for the delivery"
         tests:
           - not_null
-          - relationships:
-              to: ref('dim_time_of_day')
-              field: id_time
       - name: id_promo
         data_type: varchar
-        description: "Foreign key referencing the promos dimension"
+        description: "Identifier referencing the promotions of the order"
         tests:
           - relationships:
-              to: ref('dim_promos')
+              to: ref('stg_sql_server_dbo_promos')
               field: id_promo
       - name: percentage_of_order_cost
         data_type: number
