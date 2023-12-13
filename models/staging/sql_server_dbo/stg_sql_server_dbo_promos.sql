@@ -10,7 +10,7 @@
 
 {{
   config(
-    materialized='view'
+    materialized='incremental'
     , unique_key='id_promo'
     , on_schema_change='fail'
   )
@@ -23,6 +23,11 @@ with src_promos as (
         , status::varchar(50) as status
         , _fivetran_synced
     from {{ source('sql_server_dbo', 'promos') }}
+{% if is_incremental() %}
+
+	  where _fivetran_synced > (select max(date_load_utc) from {{ this }} )
+
+{% endif %}
     ),
 
 stg_promos as (
@@ -33,7 +38,7 @@ stg_promos as (
         , status
         , {{ dbt_date.convert_timezone("_fivetran_synced", "America/Los_Angeles", "UTC") }} AS date_load_utc
     from src_promos
-    )
+)
 
 select * from stg_promos
 union all

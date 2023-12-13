@@ -22,6 +22,7 @@ dim_addresses as (
         , address
         , zipcode
         , state
+        , Code
         , country
         , date_load_utc
     from stg_addresses

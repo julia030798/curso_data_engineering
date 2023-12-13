@@ -33,16 +33,24 @@ models:
         +schema: google_sheets
       sql_server_dbo:
         +schema: sql_server_dbo
+        base:
+          +schema: base
+      seed_state_codes:
+        +schema: seed_state_codes
+        base:
+          +schema: base
       
     marts:
       +materialized: table
       +database: "{{ env_var('DBT_ENVIRONMENTS') }}_GOLD_DB"
       core:
         +schema: core
-        intermediate: 
-          +schema: intermediate
       marketing:
         +schema: marketing
+      finance:
+        +schema: finance
+      product:
+        +schema: product
         
 seeds:
   +schema: seed_data

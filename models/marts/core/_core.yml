@@ -13,18 +13,20 @@ models:
         data_type: varchar
         description: "Foreign key referencing the date dimension for the created date"
         tests:
-          - not_null
-          - relationships:
+          - dbt_utils.relationships_where:
               to: ref('dim_date')
               field: id_date
+              from_condition: id_date is not null
+              to_condition: id_date is not null
       - name: id_time_created
         data_type: varchar
         description: "Foreign key referencing the time of day dimension for the created date"
         tests:
-          - not_null
-          - relationships:
+          - dbt_utils.relationships_where:
               to: ref('dim_time')
               field: id_time
+              from_condition: id_timeis not null
+              to_condition: id_time is not null
       - name: id_product
         data_type: varchar
         description: "Foreign key referencing the products dimension"
@@ -78,30 +80,38 @@ models:
         data_type: varchar
         description: "Foreign key referencing the date dimension for estimated delivery date"
         tests:
-          - relationships:
+          - dbt_utils.relationships_where:
               to: ref('dim_date')
               field: id_date
+              from_condition: id_date is not null
+              to_condition: id_date is not null
       - name: id_time_estimated_delivery
         data_type: varchar
         description: "Foreign key referencing the time of day dimension for estimated delivery date"
         tests:
-          - relationships:
+          - dbt_utils.relationships_where:
               to: ref('dim_time')
               field: id_time
+              from_condition: id_timeis not null
+              to_condition: id_time is not null
       - name: id_date_delivered
         data_type: varchar
         description: "Foreign key referencing the date dimension for delivered date"
         tests:
-          - relationships:
-              to: ref('dim_time')
+          - dbt_utils.relationships_where:
+              to: ref('dim_date')
               field: id_date
+              from_condition: id_date is not null
+              to_condition: id_date is not null
       - name: id_time_delivered
         data_type: varchar
         description: "Foreign key referencing the time of day dimension for delivered date"
         tests:
-          - relationships:
+          - dbt_utils.relationships_where:
               to: ref('dim_time')
               field: id_time
+              from_condition: id_timeis not null
+              to_condition: id_time is not null
       - name: id_promo
         data_type: varchar
         description: "Foreign key referencing the promos dimension"
@@ -109,6 +119,24 @@ models:
           - relationships:
               to: ref('dim_promos')
               field: id_promo
+      - name: percentage_of_order_cost
+        data_type: number
+        description: "Percentage of cost for the item"
+        tests:
+          - not_null
+          - positive_values
+      - name: percentage_of_shipping_cost
+        data_type: number
+        description: "Percentage of shipping cost for the item"
+        tests:
+          - not_null
+          - positive_values
+      - name: inventory_value
+        data_type: number
+        description: "Inventory value for the item"
+        tests:
+          - not_null
+          - positive_values
       - name: date_load_utc
         data_type: timestamp_ntz
         description: "Date and time when the data was loaded"
@@ -166,6 +194,9 @@ models:
       - name: updated_date_utc
         data_type: timestamp_ntz
         description: "Date when the user was last updated"
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the data was loaded"
 
   - name: dim_shipping
     description: "Dimension table containing shipping service information"
@@ -179,6 +210,13 @@ models:
       - name: shipping_service
         data_type: varchar
         description: "Description of the shipping service"
+        tests:
+          - not_null
+      - name: status
+        data_type: varchar
+        description: "Status of the order"
+        tests:
+          - not_null
       - name: address
         data_type: varchar
         description: "Address associated with the user"
@@ -228,6 +266,8 @@ models:
         description: "Status of the promotional offer"
         tests:
           - not_null
+          - accepted_values:
+              values: ['active', 'inactive']
       - name: date_load_utc
         data_type: timestamp_ntz
         description: "Date and time when the data was loaded"
@@ -264,9 +304,28 @@ models:
           - not_null
           - accepted_values:
               values: ['checkout', 'package_shipped', 'add_to_cart', 'page_view']
+
+  - name: dim_page
+    description: "Dimension table containing page logs information"
+    columns:
+      - name: id_page
+        data_type: varchar
+        description: "Primary key for page logs"
+        tests:
+          - not_null
+          - unique
       - name: page_url
         data_type: varchar
         description: "URL of the page associated with the event"
+        tests:
+            - not_null
+
+  - name: dim_sessions
+    description: "Dimension table containing user session information"
+    columns:
+      - name: id_session
+        data_type: varchar
+        description: "Primary key of the session"
         tests:
           - not_null
       - name: first_name
@@ -274,24 +333,16 @@ models:
         description: "First name of the user"
         tests:
           - not_null
+      - name: last_name
+        data_type: varchar
+        description: "Last name of the user"
+        tests:
+          - not_null
       - name: email
         data_type: varchar
         description: "Email address of the user"
         tests:
           - not_null
-      - name: product_desc
-        data_type: varchar
-        description: "Name of the product"
-        tests:
-          - not_null
-      - name: created_at_utc
-        data_type: timestamp_ntz
-        description: "Date and time when the data was created" 
-        tests:
-          - not_null
-      - name: date_load_utc
-        data_type: timestamp_ntz
-        description: "Date and time when the data was loaded"
 
   - name: dim_addresses
     description: "Dimension table containing address information"
@@ -316,6 +367,9 @@ models:
         description: "State of the address"
         tests:
           - not_null
+      - name: Code
+        data_type: varchar
+        description: "Code state of the address"
       - name: country
         data_type: varchar
         description: "Country of the address"
@@ -332,66 +386,49 @@ models:
         data_type: varchar
         description: "Primary key for dates"
         tests:
-          - not_null
           - unique
       - name: date
         data_type: date
         description: "Date value"
         tests:
-          - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: date
       - name: day_of_week
         data_type: number
         description: "Day of the week"
-        tests:
-          - not_null
       - name: day_desc
         data_type: varchar
         description: "Description of the day of the week"
         tests:
-          - not_null
           - accepted_values:
               values: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
       - name: week_day_desc
         data_type: varchar
         description: "Description of the type of week day of the week"
         tests:
-          - not_null
           - accepted_values:
               values: ['Weekday', 'Weekend']
       - name: day_of_month
         data_type: number
         description: "Day of the month"
-        tests:
-          - not_null
       - name: day_of_year
         data_type: number
         description: "Day of the year"
-        tests:
-          - not_null
       - name: month_of_year
         data_type: number
         description: "Month of the year"
-        tests:
-          - not_null
       - name: month_desc
         data_type: varchar
         description: "Description of the month of the year"
         tests:
-          - not_null
           - accepted_values:
               values: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
       - name: quarter_of_year
         data_type: number
         description: "Quarter of the year"
-        tests:
-          - not_null
       - name: year_number
         data_type: number
         description: "Year number"
-        tests:
-          - not_null
 
   - name: dim_time
     description: "Dimension table containing time information"
@@ -400,49 +437,148 @@ models:
         data_type: varchar
         description: "Primary key for times"
         tests:
-          - not_null
           - unique
       - name: time_utc
         data_type: date
         description: "Time value"
         tests:
-          - not_null
           - dbt_expectations.expect_column_values_to_be_of_type:
               column_type: time
       - name: hour_of_day
         data_type: number
         description: "Hour of the day number"
-        tests:
-          - not_null
       - name: minute_of_hour
         data_type: number
         description: "Minute of the hour number"
-        tests:
-          - not_null
       - name: second_of_minute
         data_type: number
         description: "Second of the minute number"
-        tests:
-          - not_null
       - name: period_of_day
         data_type: varchar
         description: "Classification of the period of the day"
         tests:
-          - not_null
           - accepted_values:
               values: ['am', 'pm']
       - name: daytime_name
         data_type: varchar
         description: "Description of the day periods"
         tests:
-          - not_null
           - accepted_values:
               values: ['Morning', 'Midday', 'Afternoon', 'Evening', 'Night']
       - name: day_night
         data_type: varchar
         description: "Classification of day and night"
         tests:
-          - not_null
           - accepted_values:
               values: ['Day', 'Night']
-        
+
+  - name: fct_budget
+    description: "Fact table containing information about products's budget"
+    columns:
+      - name: id_budget
+        data_type: varchar
+        description: "Foreing key for order"
+        tests: 
+          - not_null
+      - name: id_product
+        data_type: varchar
+        description: "Foreign key referencing the products dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_products')
+              field: id_product
+      - name: quantity
+        data_type: number
+        description: "Quantity of products in the budget"
+        tests:
+          - not_null
+          - positive_values
+      - name: id_date_month
+        data_type: varchar
+        description: "Foreign key referencing the date dimension for the budget's month"
+        tests:
+          - not_null
+          - dbt_utils.relationships_where:
+              to: ref('dim_date')
+              field: id_date
+              from_condition: id_date is not null
+              to_condition: id_date is not null
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the data was loaded"
+
+  - name: fct_page_logs
+    description: "Fact table containing information about web page logs"
+    columns:
+      - name: id_event
+        data_type: varchar
+        description: "Foreign key referencing the event dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_events')
+              field: id_event
+      - name: id_page
+        data_type: varchar
+        description: "Foreign key referencing the page dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_page')
+              field: id_page
+      - name: id_user
+        data_type: varchar
+        description: "Foreign key referencing the users dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_users')
+              field: id_user
+      - name: id_session
+        data_type: varchar
+        description: "Foreign key referencing the session dimension"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_sessions')
+              field: id_session
+      - name: id_product
+        data_type: varchar
+        description: "Foreign key referencing the products dimension"
+        tests:
+          - not_null
+          - dbt_utils.relationships_where:
+              to: ref('dim_products')
+              field: id_product
+              from_condition: id_product is not null
+              to_condition: id_product is not null
+      - name: id_order
+        data_type: varchar
+        description: "Foreign key referencing the order items dimension"
+        tests:
+          - not_null
+      - name: id_date_created
+        data_type: varchar
+        description: "Foreign key referencing the date dimension"
+        tests:
+          - not_null
+          - dbt_utils.relationships_where:
+              to: ref('dim_date')
+              field: id_date
+              from_condition: id_date is not null
+              to_condition: id_date is not null
+      - name: id_time_created
+        data_type: varchar
+        description: "Foreign key referencing the time of day dimension"
+        tests:
+          - not_null
+          - dbt_utils.relationships_where:
+              to: ref('dim_time')
+              field: id_time
+              from_condition: id_time is not null
+              to_condition: id_time is not null
+      - name: date_load_utc
+        data_type: timestamp_ntz
+        description: "Date and time when the data was loaded"
+

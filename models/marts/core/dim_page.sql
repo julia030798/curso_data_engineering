@@ -2,13 +2,16 @@
 {{
   config(
     materialized='incremental'
-    , unique_key = 'id_event'
+    , unique_key = 'id_page'
     , on_schema_change='fail'
   )
 }}
 
-with dim_events as (
-    select *
+with dim_page as (
+    select distinct
+          id_page
+        , page_url
+        , date_load_utc
     from {{ ref('stg_sql_server_dbo_events') }}
 {% if is_incremental() %}
 
@@ -17,7 +20,5 @@ with dim_events as (
 {% endif %}
 )
 
-select
-      id_event
-    , event_type
-from dim_events
+select *
+from dim_page
