@@ -13,20 +13,18 @@ models:
         data_type: varchar
         description: "Foreign key referencing the date dimension for the created date"
         tests:
-          - dbt_utils.relationships_where:
+          - not_null
+          - relationships:
               to: ref('dim_date')
               field: id_date
-              from_condition: id_date is not null
-              to_condition: id_date is not null
       - name: id_time_created
         data_type: varchar
         description: "Foreign key referencing the time of day dimension for the created date"
         tests:
-          - dbt_utils.relationships_where:
-              to: ref('dim_time')
+          - not_null
+          - relationships:
+              to: ref('dim_time_of_day')
               field: id_time
-              from_condition: id_timeis not null
-              to_condition: id_time is not null
       - name: id_product
         data_type: varchar
         description: "Foreign key referencing the products dimension"
@@ -80,38 +78,34 @@ models:
         data_type: varchar
         description: "Foreign key referencing the date dimension for estimated delivery date"
         tests:
-          - dbt_utils.relationships_where:
+          - not_null
+          - relationships:
               to: ref('dim_date')
               field: id_date
-              from_condition: id_date is not null
-              to_condition: id_date is not null
       - name: id_time_estimated_delivery
         data_type: varchar
         description: "Foreign key referencing the time of day dimension for estimated delivery date"
         tests:
-          - dbt_utils.relationships_where:
-              to: ref('dim_time')
+          - not_null
+          - relationships:
+              to: ref('dim_time_of_day')
               field: id_time
-              from_condition: id_timeis not null
-              to_condition: id_time is not null
       - name: id_date_delivered
         data_type: varchar
         description: "Foreign key referencing the date dimension for delivered date"
         tests:
-          - dbt_utils.relationships_where:
+          - not_null
+          - relationships:
               to: ref('dim_date')
               field: id_date
-              from_condition: id_date is not null
-              to_condition: id_date is not null
       - name: id_time_delivered
         data_type: varchar
         description: "Foreign key referencing the time of day dimension for delivered date"
         tests:
-          - dbt_utils.relationships_where:
-              to: ref('dim_time')
+          - not_null
+          - relationships:
+              to: ref('dim_time_of_day')
               field: id_time
-              from_condition: id_timeis not null
-              to_condition: id_time is not null
       - name: id_promo
         data_type: varchar
         description: "Foreign key referencing the promos dimension"
@@ -499,11 +493,9 @@ models:
         description: "Foreign key referencing the date dimension for the budget's month"
         tests:
           - not_null
-          - dbt_utils.relationships_where:
+          - relationships:
               to: ref('dim_date')
               field: id_date
-              from_condition: id_date is not null
-              to_condition: id_date is not null
       - name: date_load_utc
         data_type: timestamp_ntz
         description: "Date and time when the data was loaded"
@@ -560,21 +552,17 @@ models:
         description: "Foreign key referencing the date dimension"
         tests:
           - not_null
-          - dbt_utils.relationships_where:
+          - relationships:
               to: ref('dim_date')
               field: id_date
-              from_condition: id_date is not null
-              to_condition: id_date is not null
       - name: id_time_created
         data_type: varchar
         description: "Foreign key referencing the time of day dimension"
         tests:
           - not_null
-          - dbt_utils.relationships_where:
-              to: ref('dim_time')
+          - relationships:
+              to: ref('dim_time_of_day')
               field: id_time
-              from_condition: id_time is not null
-              to_condition: id_time is not null
       - name: date_load_utc
         data_type: timestamp_ntz
         description: "Date and time when the data was loaded"

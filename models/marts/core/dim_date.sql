@@ -47,7 +47,7 @@ dim_date_null as (
 )
 
 select
-      {{ dbt_utils.generate_surrogate_key(['date_day']) }} AS id_date
+      {{ dbt_utils.generate_surrogate_key(['date_day']) }} as id_date
     , date
     , day_of_week
     , day_desc
@@ -60,5 +60,6 @@ select
     , quarter_of_year
     , year_number
 from dim_date_null
+where id_date is not null
 order by
     date_day desc
