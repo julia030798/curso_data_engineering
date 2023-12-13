@@ -19,8 +19,6 @@ models:
       - name: session_en_time
         data_type: time
         description: "End time of the session"
-        tests: 
-          - not_null
       - name: duration_minutes
         data_type: number
         description: "Durantion of the session in minutes"

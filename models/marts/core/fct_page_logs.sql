@@ -23,4 +23,5 @@ select
     , id_order
     , id_date_created
     , id_time_created
+    , date_load_utc
 from stg_events

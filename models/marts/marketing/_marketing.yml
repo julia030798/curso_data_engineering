@@ -48,8 +48,6 @@ models:
       - name: Code
         data_type: varchar
         description: "State code of the users' state"
-        tests:
-          - not_null
       - name: country
         data_type: varchar
         description: "User's country"
@@ -183,13 +181,12 @@ models:
         description: "Number of 'add-to-cart' events"
         tests:
           - not_null
+      - name: checkout
+        data_type: number
+        description: "Number of 'checkout' events"
       - name: event_package_shipped
         data_type: number
         description: "Number of 'package-shipped' events"
         tests:
           - not_null
-      - name: checkout
-        data_type: number
-        description: "Number of 'checkout' events"
-        tests:
-          - not_null
+

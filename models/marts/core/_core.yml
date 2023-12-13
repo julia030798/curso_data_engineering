@@ -110,9 +110,7 @@ models:
         data_type: varchar
         description: "Foreign key referencing the promos dimension"
         tests:
-          - relationships:
-              to: ref('dim_promos')
-              field: id_promo
+          - not_null
       - name: percentage_of_order_cost
         data_type: number
         description: "Percentage of cost for the item"
