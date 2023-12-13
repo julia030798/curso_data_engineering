@@ -6,16 +6,7 @@
 }}
 
 with stg_events as (
-    select 
-          id_event
-        , id_page
-        , id_user
-        , id_session
-        , id_product
-        , id_order
-        , id_date_created
-        , id_time_created
-        , date_load_utc
+    select *
     from {{ ref('stg_sql_server_dbo_events') }}
 {% if is_incremental() %}
 
@@ -24,4 +15,13 @@ with stg_events as (
 {% endif %}
 )
 
-select * from stg_events
+select 
+    id_event
+    , id_page
+    , id_user
+    , id_session
+    , id_product
+    , id_order
+    , id_date_created
+    , id_time_created
+from stg_events

@@ -1,7 +1,7 @@
 
 {{
   config(
-    materialized='incremental'
+    materialized='table'
     , unique_key = 'id_user'
   )
 }}
@@ -26,13 +26,7 @@ with stg_users_addresses as
     left join
     {{ ref('stg_sql_server_dbo_addresses') }} a
     on u.id_address=a.id_address
-
-{% if is_incremental() %}
-
-	  where u.date_load_utc > (select max(date_load_utc) from {{ this }} )
-
-{% endif %}
-),
+)
 
 dim_users as (
     select 
