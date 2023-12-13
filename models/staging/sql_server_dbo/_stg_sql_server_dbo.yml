@@ -87,9 +87,14 @@ models:
               field: id_order
               from_condition: id_order is not null
               to_condition: id_order is not null
-      - name: created_at_utc
-        data_type: timestamp_ntz
-        description: "Date and time when the event was created"
+      - name: id_date_created
+        data_type: varchar
+        description: "Date when the event was created"
+        tests:
+          - not_null
+      - name: id_time_created
+        data_type: varchar
+        description: "Time when the event was created"
         tests:
           - not_null
       - name: date_load_utc
