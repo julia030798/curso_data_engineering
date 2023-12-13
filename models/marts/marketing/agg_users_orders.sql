@@ -24,11 +24,11 @@ with agg_users_orders as (
         , sum(oi.quantity) as total_products_purchased
         , count(distinct oi.id_product) as total_unique_products_purchased
     from {{ ref('dim_users') }} u
-    left join {{ ref('fct_order_items') }} oi 
+    join {{ ref('fct_order_items') }} oi 
     on u.id_user = oi.id_user
-    left join {{ ref('dim_promos') }} dp 
+    join {{ ref('dim_promos') }} dp 
     on oi.id_promo = dp.id_promo
-    left join {{ ref('dim_addresses') }} a
+    join {{ ref('dim_addresses') }} a
     on oi.id_address=a.id_address
     group by 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 )

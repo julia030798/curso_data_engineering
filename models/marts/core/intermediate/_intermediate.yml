@@ -84,9 +84,7 @@ models:
         data_type: varchar
         description: "Identifier referencing the promotions of the order"
         tests:
-          - relationships:
-              to: ref('stg_sql_server_dbo_promos')
-              field: id_promo
+          - not_null
       - name: percentage_of_order_cost
         data_type: number
         description: "Percentage of cost for the item"

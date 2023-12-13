@@ -43,7 +43,7 @@ stg_promos as (
 select * from stg_promos
 union all
 select
-      {{dbt_utils.generate_surrogate_key(['promo_desc'])}} as id_promo
+      {{dbt_utils.generate_surrogate_key(["'no promo'"])}} as id_promo
     , 'no promo' as promo_desc
     , 0 as discount_usd
     , 'active' as status 

@@ -23,7 +23,7 @@ with stg_users_addresses as
         , u.updated_at_utc
         , u.date_load_utc 
     from {{ ref('stg_sql_server_dbo_users') }} u
-    left join
+    join
     {{ ref('stg_sql_server_dbo_addresses') }} a
     on u.id_address=a.id_address
 ),
