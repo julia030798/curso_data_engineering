@@ -53,7 +53,6 @@ int_orders_pivoted as (
         , ((shipping_cost_item_usd / shipping_cost_usd) * 100)::decimal(7,2) as percentage_of_shipping_cost
         , inventory
         , inventory * price_usd::decimal(7,2) as inventory_value
-        , date_load_utc
     from stg_orders_order_items_products
 )
 

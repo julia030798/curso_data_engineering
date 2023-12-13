@@ -18,7 +18,7 @@ with fct_order_items as
 )
 
 select 
-    id_order
+      id_order
     , id_user
     , id_address
     , id_promo
