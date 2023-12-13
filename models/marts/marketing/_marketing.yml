@@ -1,0 +1,87 @@
+
+version: 2
+
+models:
+  - name: agg_users_orders
+    description: "Model representing aggregation of user-specific order information"
+    columns:
+      - name: id_user
+        data_type: varchar
+        description: "Foreign key referring to the users dimension"
+        tests:
+          - not_null
+      - name: first_name
+        data_type: varchar
+        description: "User's first name"
+        tests:
+          - not_null
+      - name: last_name
+        data_type: varchar
+        description: "User's last name"
+        tests:
+          - not_null
+      - name: email
+        data_type: varchar
+        description: "User's email address"
+        tests:
+          - not_null
+      - name: phone_number
+        data_type: varchar
+        description: "User's phone number"
+        tests:
+          - not_null
+      - name: address
+        data_type: varchar
+        description: "User's address"
+        tests:
+          - not_null
+      - name: zipcode
+        data_type: number
+        description: "User's ZIP code"
+        tests:
+          - not_null
+      - name: state
+        data_type: varchar
+        description: "User's state"
+        tests:
+          - not_null
+      - name: Code
+        data_type: varchar
+        description: "State code of the users' state"
+        tests:
+          - not_null
+      - name: country
+        data_type: varchar
+        description: "User's country"
+        tests:
+          - not_null
+      - name: total_orders
+        data_type: number
+        description: "Total number of orders placed by the user"
+        tests:
+          - not_null
+      - name: total_spent
+        data_type: number
+        description: "Total amount spent by the user"
+        tests:
+          - not_null
+      - name: total_shipping_cost
+        data_type: number
+        description: "Total shipping cost incurred by the user"
+        tests:
+          - not_null
+      - name: total_discount
+        data_type: number
+        description: "Total discount applied to the user's orders"
+        tests:
+          - not_null
+      - name: total_products_purchased
+        data_type: number
+        description: "Total number of products purchased by the user"
+        tests:
+          - not_null
+      - name: total_unique_products_purchased
+        data_type: number
+        description: "Total number of unique products purchased by the user"
+        tests:
+          - not_null

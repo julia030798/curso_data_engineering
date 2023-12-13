@@ -1,0 +1,52 @@
+
+version: 2
+
+models:
+  - name: agg_products_sales_vs_budget
+    description: "Model comparing product sales against budget"
+    columns:
+      - name: id_product
+        data_type: varchar
+        description: "Foreign key referring to the products dimension"
+        tests:
+          - not_null
+      - name: product_desc
+        data_type: varchar
+        description: "Product description"
+        tests:
+          - not_null
+      - name: year
+        data_type: number
+        description: "Year of the sale"
+        tests:
+          - not_null
+      - name: month
+        data_type: varchar
+        description: "Month of the sale"
+        tests:
+          - not_null
+      - name: budget
+        data_type: number
+        description: "Budget amount of the products"
+        tests:
+          - not_null
+      - name: total_sales_product_month_usd
+        data_type: number
+        description: "Total sales for the product in the month (USD)"
+        tests:
+          - not_null
+      - name: total_shipping_cost_product_month_usd
+        data_type: number
+        description: "Total shipping cost for the product in the month (USD)"
+        tests:
+          - not_null
+      - name: total_orders
+        data_type: number
+        description: "Total number of orders for the product"
+        tests:
+          - not_null
+      - name: over_budget
+        data_type: boolean
+        description: "Indicator if total sales are over the budget"
+        tests:
+          - not_null
