@@ -6,7 +6,7 @@ import random
 # Configuración de Snowflake
 snowflake_config = {
     'user': 'Alumno6',
-    'password': 'Mipelusa2012!',
+    'password': '*****',
     'account': 'civicapartner.west-europe.azure',
     'warehouse': 'WH_CURSO_DATA_ENGINEERING',
     'database': 'ALUMNO6_DEV_BRONZE_DB',
